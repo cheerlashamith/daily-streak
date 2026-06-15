@@ -9,7 +9,7 @@ name: Daily Streak Commit
 # ───────────────────────────────────────────────────────────────
 on:
   schedule:
-    - cron: "30 21 * * *"
+    - cron: "30 18 * * *"
   workflow_dispatch: {}
 
 # Allow the job to push commits back to the repo
@@ -36,8 +36,8 @@ jobs:
           # 👇👇👇 REPLACE THESE TWO LINES WITH YOUR OWN GITHUB INFO 👇👇👇
           # So commits count toward YOUR contribution graph (not the bot's).
           # Find your no-reply email at: GitHub > Settings > Emails
-          git config user.name  "YOUR_GITHUB_USERNAME"
-          git config user.email "12345678+YOUR_GITHUB_USERNAME@users.noreply.github.com"
+          git config user.name  "cheerlashamith"
+          git config user.email "chshamith888@gmail.com"
           # 👆👆👆 REPLACE THESE TWO LINES WITH YOUR OWN GITHUB INFO 👆👆👆
 
           git add -A

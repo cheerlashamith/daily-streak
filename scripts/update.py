@@ -86,7 +86,8 @@ def main():
             "# 🟢 Daily Activity Log\n\n"
             "Automatically maintained by the Daily Streak Agent.\n\n"
             "| Date | Time | Streak | Quote |\n"
-            "|------|------|--------|-------|\n"
+            "|------|------|--------|-------|\n",
+            encoding="utf-8"
         )
 
     line = f"| {today} | {stamp} | 🔥 {state['streak']} | {quote} |\n"
