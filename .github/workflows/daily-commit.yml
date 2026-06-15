@@ -1,0 +1,50 @@
+name: Daily Streak Commit
+
+# ───────────────────────────────────────────────────────────────
+# WHEN does this run?
+#   - On a schedule (cron) once per day
+#   - Manually via the "Run workflow" button (Actions tab)
+# Cron is in UTC. "30 21 * * *" = 21:30 UTC = 03:00 IST next day.
+# Adjust to whatever time you like. https://crontab.guru helps.
+# ───────────────────────────────────────────────────────────────
+on:
+  schedule:
+    - cron: "30 21 * * *"
+  workflow_dispatch: {}
+
+# Allow the job to push commits back to the repo
+permissions:
+  contents: write
+
+jobs:
+  commit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - name: Run the daily agent
+        run: python scripts/update.py
+
+      - name: Commit and push changes
+        run: |
+          # 👇👇👇 REPLACE THESE TWO LINES WITH YOUR OWN GITHUB INFO 👇👇👇
+          # So commits count toward YOUR contribution graph (not the bot's).
+          # Find your no-reply email at: GitHub > Settings > Emails
+          git config user.name  "YOUR_GITHUB_USERNAME"
+          git config user.email "12345678+YOUR_GITHUB_USERNAME@users.noreply.github.com"
+          # 👆👆👆 REPLACE THESE TWO LINES WITH YOUR OWN GITHUB INFO 👆👆👆
+
+          git add -A
+          # Only commit if something actually changed
+          if git diff --cached --quiet; then
+            echo "No changes to commit."
+          else
+            git commit -m "chore: daily streak update ($(date -u +'%Y-%m-%d'))"
+            git push
+          fi

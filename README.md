@@ -1,86 +1,140 @@
-# Daily GitHub Streak Agent
+# 🟢 Daily GitHub Streak Agent
 
-An agent that automatically commits to your GitHub repo **once a day**, so your
-contribution graph stays green. It runs in **GitHub Actions** (free cloud) —
-your PC does **not** need to be on.
+An automated agent that commits to your GitHub repo **once every day** so your
+contribution graph stays green — with **zero cost** and **no PC required**.
+It runs entirely in **GitHub Actions** (GitHub's free cloud).
 
 ![architecture](diagrams/architecture.png)
 
 ---
 
-## What it does
+## ⚠️ Honest disclaimer (read this first)
 
-Every day, a script adds today's date + a short quote to `logs/activity.md`,
-then commits and pushes it. That commit = one green square on your graph.
-
----
-
-## How it works
-
-1. **GitHub Actions** runs the job once a day (on a timer).
-2. It starts a free Linux machine and runs `scripts/update.py`.
-3. The script writes a new line into `logs/activity.md`.
-4. The job commits and pushes that change to your repo.
-
-No PC, no server, no payment needed.
+This is meant as a **learning / streak-maintenance helper**. It commits real,
+small content (a dated log + a rotating quote) every day. It does **not** make
+you a better engineer, and "fake green squares" do not impress serious
+recruiters. Use it to build a *real* daily habit, not to fool anyone. 🙂
 
 ---
 
-## Setup (one time)
+## 🧠 How it works (architecture)
 
-**1. Create a repo**
-Go to https://github.com/new → make it **Public** → Create.
+| # | Component | What it does |
+|---|-----------|--------------|
+| 1 | **Scheduler** | GitHub Actions `cron` fires once a day (and a manual button) |
+| 2 | **Runner** | A free `ubuntu-latest` VM spins up, checks out your repo, installs Python |
+| 3 | **Agent script** | `scripts/update.py` appends today's date + a quote to `logs/activity.md` |
+| 4 | **Git** | The workflow commits the change and pushes it using the built-in token |
+| 5 | **Your repo** | The new commit lands → your contribution graph turns green ✅ |
 
-**2. Add the files**
-Upload these to the repo (keep the folders):
-- `.github/workflows/daily-commit.yml`
-- `scripts/update.py`
-- `logs/.gitkeep`
-- `README.md`
+Everything repeats automatically every day — fully hands-off.
 
-**3. Allow it to commit**
-Repo → **Settings → Actions → General → Workflow permissions** →
-choose **Read and write permissions** → Save.
+---
 
-**4. Make commits count for you** (important)
-In `.github/workflows/daily-commit.yml`, replace these lines with your info
-(get your email from GitHub → Settings → Emails):
-```yaml
-git config user.name  "YOUR_GITHUB_USERNAME"
-git config user.email "12345678+YOUR_GITHUB_USERNAME@users.noreply.github.com"
+## 🚀 Setup (5 minutes, one time)
+
+### 1. Create a GitHub repository
+- Go to https://github.com/new
+- Name it e.g. `daily-streak`
+- **Public** repo = unlimited free Actions minutes (recommended)
+- Create it.
+
+### 2. Add these files to the repo
+Copy the contents of this folder into your repo:
 ```
-
-**5. Test it**
-Repo → **Actions** tab → **Daily Streak Commit** → **Run workflow**.
-Check your repo for a new commit. From now on it runs by itself.
-
----
-
-## Change the time
-
-In `daily-commit-agent.yml`, edit the cron line (time is in **UTC**):
-```yaml
-- cron: "30 21 * * *"   # 21:30 UTC = 03:00 IST
-```
-Use https://crontab.guru to set your own time.
-
----
-
-## Notes
-
-- **Free:** Public repos get unlimited Actions minutes. No Pro plan needed.
-- **Timing:** GitHub may run the job a few minutes late. That's normal.
-- **Graph stays grey?** You skipped step 4 (email must be your GitHub email).
-- **Push error?** You skipped step 3 (read & write permissions).
-
----
-
-## Files
-
-```
-.github/workflows/daily-commit.yml   automation + schedule
-scripts/update.py                    the daily script
-logs/                                generated log
-diagrams/                            architecture image
+.github/workflows/daily-commit.yml
+scripts/update.py
+logs/.gitkeep
 README.md
+```
+You can do this via the GitHub web UI ("Add file" → "Upload files"),
+or with git:
+```bash
+git clone https://github.com/<you>/daily-streak.git
+cd daily-streak
+# copy the files in, then:
+git add .
+git commit -m "init daily streak agent"
+git push
+```
+
+### 3. Set your timezone (optional)
+Open `scripts/update.py` and set `TZ_OFFSET_HOURS` to your timezone
+(India = `5.5`). Set the cron time in the workflow if you want a specific
+hour — remember **cron is in UTC**. Use https://crontab.guru to convert.
+
+### 4. Make commits count for YOUR graph (important!)
+By default the workflow commits as the GitHub Actions bot. Bot commits show
+up but may not count for *you*. To count for your profile, edit the email in
+`.github/workflows/daily-commit.yml`:
+
+```yaml
+git config user.email "YOUR_GITHUB_USERNAME@users.noreply.github.com"
+git config user.name  "YOUR_GITHUB_USERNAME"
+```
+Find your no-reply email at: GitHub → Settings → Emails.
+
+### 5. Enable Actions write permission
+Repo → **Settings → Actions → General → Workflow permissions** →
+select **"Read and write permissions"** → Save.
+
+### 6. Test it now
+Go to the **Actions** tab → "Daily Streak Commit" → **Run workflow**.
+Watch it run, then check your repo — there should be a new commit. 🎉
+
+---
+
+## ⏰ Changing the schedule
+
+In `.github/workflows/daily-commit.yml`:
+```yaml
+on:
+  schedule:
+    - cron: "30 21 * * *"   # minute hour day month weekday  (UTC)
+```
+Examples (UTC):
+- `0 6 * * *` → 6:00 AM UTC daily
+- `30 21 * * *` → 21:30 UTC = 03:00 IST next day
+- `0 0 * * 1-5` → midnight UTC, weekdays only
+
+> Note: GitHub cron is best-effort and can run a few minutes — sometimes up to
+> ~1 hour — late, especially at popular times like `0 0`. Use an odd minute.
+
+---
+
+## 💸 Is it really free?
+
+Yes.
+- **Public repos:** GitHub Actions minutes are **unlimited & free**.
+- **Private repos:** 2,000 free minutes/month. This job uses ~1 min/day
+  (~30 min/month), so it's free either way.
+
+---
+
+## 🔐 Security / access
+
+- Uses the **built-in `GITHUB_TOKEN`** — no password, no Personal Access
+  Token, no secrets to manage.
+- Permissions are scoped to `contents: write` for this repo only.
+
+---
+
+## 🏃 Run locally (optional)
+```bash
+python scripts/update.py
+git add -A && git commit -m "daily update" && git push
+```
+
+---
+
+## 📁 Project structure
+```
+daily-commit-agent/
+├── .github/workflows/daily-commit.yml   # the scheduler + automation
+├── scripts/update.py                    # the agent logic
+├── logs/                                # generated activity log + state
+├── diagrams/
+│   ├── architecture.svg                 # architecture diagram (vector)
+│   └── architecture.png                 # architecture diagram (image)
+└── README.md
 ```
