@@ -11,9 +11,6 @@ on:
   schedule:
     - cron: "30 18 * * *"
   workflow_dispatch: {}
-  push:
-    branches:
-      - main
 
 # Allow the job to push commits back to the repo
 permissions:
