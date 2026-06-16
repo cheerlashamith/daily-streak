@@ -4,12 +4,12 @@ name: Daily Streak Commit
 # WHEN does this run?
 #   - On a schedule (cron) once per day
 #   - Manually via the "Run workflow" button (Actions tab)
-# Cron is in UTC. "30 18 * * *" = 18:30 UTC = 00:00 IST Midnight.
+# Cron is in UTC. "30 0 * * *" = 00:30 UTC = 06:00 IST Morning.
 # Adjust to whatever time you like. https://crontab.guru helps.
 # ───────────────────────────────────────────────────────────────
 on:
   schedule:
-    - cron: "30 18 * * *"
+    - cron: "30 0 * * *"
   workflow_dispatch: {}
 
 # Allow the job to push commits back to the repo
