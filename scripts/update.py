@@ -96,7 +96,7 @@ def main():
 
     save_state(state)
 
-    print(f"✅ Logged {today}  (streak: {state['streak']}, total runs: {state['total_runs']})")
+    print(f"Logged {today}  (streak: {state['streak']}, total runs: {state['total_runs']})")
     print(f"   Quote: {quote}")
 
 
