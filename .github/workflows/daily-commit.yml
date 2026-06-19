@@ -2,15 +2,29 @@ name: Daily Streak Commit
 
 # ───────────────────────────────────────────────────────────────
 # WHEN does this run?
-#   - On a schedule (cron) once per day
+#   - On a schedule (cron) 7 times per day, spread across the day
 #   - Manually via the "Run workflow" button (Actions tab)
-# Cron is in UTC. "30 0,1,2,3 * * *" means it runs at:
-# 00:30, 01:30, 02:30, and 03:30 UTC every day.
-# In IST, this is 6:00 AM, 7:00 AM, 8:00 AM, and 9:00 AM.
+#
+# Cron is in UTC.  India (IST) = UTC + 5:30
+#
+# Schedule (7 commits/day, ~2–3 hour gaps):
+#   UTC  00:30  →  IST  06:00 AM   (commit 1 — early morning)
+#   UTC  03:00  →  IST  08:30 AM   (commit 2 — morning)
+#   UTC  05:30  →  IST  11:00 AM   (commit 3 — late morning)
+#   UTC  08:00  →  IST  01:30 PM   (commit 4 — afternoon)
+#   UTC  10:30  →  IST  04:00 PM   (commit 5 — evening)
+#   UTC  13:00  →  IST  06:30 PM   (commit 6 — late evening)
+#   UTC  15:30  →  IST  09:00 PM   (commit 7 — night)
 # ───────────────────────────────────────────────────────────────
 on:
   schedule:
-    - cron: "30 0,1,2,3 * * *"
+    - cron: "30 0 * * *"
+    - cron: "0 3 * * *"
+    - cron: "30 5 * * *"
+    - cron: "0 8 * * *"
+    - cron: "30 10 * * *"
+    - cron: "0 13 * * *"
+    - cron: "30 15 * * *"
   workflow_dispatch: {}
 
 # Allow the job to push commits back to the repo
@@ -34,18 +48,19 @@ jobs:
 
       - name: Commit and push changes
         run: |
-          # 👇👇👇 REPLACE THESE TWO LINES WITH YOUR OWN GITHUB INFO 👇👇👇
-          # So commits count toward YOUR contribution graph (not the bot's).
-          # Find your no-reply email at: GitHub > Settings > Emails
           git config user.name  "cheerlashamith"
           git config user.email "chshamith888@gmail.com"
-          # 👆👆👆 REPLACE THESE TWO LINES WITH YOUR OWN GITHUB INFO 👆👆👆
 
           git add -A
           # Only commit if something actually changed
           if git diff --cached --quiet; then
             echo "No changes to commit."
           else
-            git commit -m "chore: daily streak update ($(date -u +'%Y-%m-%d'))"
+            COMMIT_NUM=$(python -c "
+          import json, pathlib
+          s = json.loads(pathlib.Path('logs/state.json').read_text())
+          print(s.get('daily_commit_number', 1))
+          ")
+            git commit -m "chore: daily streak update ($(date -u +'%Y-%m-%d')) [commit ${COMMIT_NUM}/7]"
             git push
           fi
