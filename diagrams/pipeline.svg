@@ -1,0 +1,85 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 320" width="700" height="320">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0d1117"/>
+      <stop offset="100%" style="stop-color:#161b22"/>
+    </linearGradient>
+    <filter id="shadow" x="-5%" y="-5%" width="110%" height="110%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#000000" flood-opacity="0.4"/>
+    </filter>
+  </defs>
+  <rect width="700" height="320" fill="url(#bg)" rx="12"/>
+  <text x="350" y="35" font-family="system-ui,sans-serif" font-size="20" font-weight="800" fill="#ffffff" text-anchor="middle">Execution Pipeline</text>
+  <text x="350" y="55" font-family="system-ui,sans-serif" font-size="12" fill="#8b949e" text-anchor="middle">7 Automated Daily Cycles — Serverless Architecture</text>
+
+  <!-- Step 1 -->
+  <rect x="30" y="90" width="110" height="80" rx="10" fill="#0d1117" stroke="#58a6ff" stroke-width="2" filter="url(#shadow)"/>
+  <text x="85" y="120" font-family="system-ui,sans-serif" font-size="28" text-anchor="middle">⏰</text>
+  <text x="85" y="145" font-family="system-ui,sans-serif" font-size="12" fill="#58a6ff" text-anchor="middle" font-weight="700">CRON</text>
+  <text x="85" y="162" font-family="system-ui,sans-serif" font-size="10" fill="#8b949e" text-anchor="middle">Trigger</text>
+
+  <!-- Arrow 1 -->
+  <line x1="140" y1="130" x2="170" y2="130" stroke="#58a6ff" stroke-width="2"/>
+  <polygon points="170,125 180,130 170,135" fill="#58a6ff"/>
+
+  <!-- Step 2 -->
+  <rect x="170" y="90" width="110" height="80" rx="10" fill="#0d1117" stroke="#3fb950" stroke-width="2" filter="url(#shadow)"/>
+  <text x="225" y="120" font-family="system-ui,sans-serif" font-size="28" text-anchor="middle">💻</text>
+  <text x="225" y="145" font-family="system-ui,sans-serif" font-size="12" fill="#3fb950" text-anchor="middle" font-weight="700">VM</text>
+  <text x="225" y="162" font-family="system-ui,sans-serif" font-size="10" fill="#8b949e" text-anchor="middle">Spins up</text>
+
+  <!-- Arrow 2 -->
+  <line x1="280" y1="130" x2="310" y2="130" stroke="#3fb950" stroke-width="2"/>
+  <polygon points="310,125 320,130 310,135" fill="#3fb950"/>
+
+  <!-- Step 3 -->
+  <rect x="310" y="90" width="110" height="80" rx="10" fill="#0d1117" stroke="#f0883e" stroke-width="2" filter="url(#shadow)"/>
+  <text x="365" y="120" font-family="system-ui,sans-serif" font-size="28" text-anchor="middle">📥</text>
+  <text x="365" y="145" font-family="system-ui,sans-serif" font-size="12" fill="#f0883e" text-anchor="middle" font-weight="700">CHECKOUT</text>
+  <text x="365" y="162" font-family="system-ui,sans-serif" font-size="10" fill="#8b949e" text-anchor="middle">Clone repo</text>
+
+  <!-- Arrow 3 -->
+  <line x1="420" y1="130" x2="450" y2="130" stroke="#f0883e" stroke-width="2"/>
+  <polygon points="450,125 460,130 450,135" fill="#f0883e"/>
+
+  <!-- Step 4 -->
+  <rect x="450" y="90" width="110" height="80" rx="10" fill="#0d1117" stroke="#a371f7" stroke-width="2" filter="url(#shadow)"/>
+  <text x="505" y="120" font-family="system-ui,sans-serif" font-size="28" text-anchor="middle">🐍</text>
+  <text x="505" y="145" font-family="system-ui,sans-serif" font-size="12" fill="#a371f7" text-anchor="middle" font-weight="700">EXECUTE</text>
+  <text x="505" y="162" font-family="system-ui,sans-serif" font-size="10" fill="#8b949e" text-anchor="middle">update.py</text>
+
+  <!-- Arrow 4 -->
+  <line x1="560" y1="130" x2="590" y2="130" stroke="#a371f7" stroke-width="2"/>
+  <polygon points="590,125 600,130 590,135" fill="#a371f7"/>
+
+  <!-- Step 5 -->
+  <rect x="590" y="90" width="80" height="80" rx="10" fill="#0d1117" stroke="#f778ba" stroke-width="2" filter="url(#shadow)"/>
+  <text x="630" y="120" font-family="system-ui,sans-serif" font-size="28" text-anchor="middle">💾</text>
+  <text x="630" y="145" font-family="system-ui,sans-serif" font-size="12" fill="#f778ba" text-anchor="middle" font-weight="700">PUSH</text>
+  <text x="630" y="162" font-family="system-ui,sans-serif" font-size="10" fill="#8b949e" text-anchor="middle">Commit</text>
+
+  <!-- Labels under steps -->
+  <text x="85" y="195" font-family="system-ui,sans-serif" font-size="10" fill="#58a6ff" text-anchor="middle">Step 1</text>
+  <text x="225" y="195" font-family="system-ui,sans-serif" font-size="10" fill="#3fb950" text-anchor="middle">Step 2</text>
+  <text x="365" y="195" font-family="system-ui,sans-serif" font-size="10" fill="#f0883e" text-anchor="middle">Step 3</text>
+  <text x="505" y="195" font-family="system-ui,sans-serif" font-size="10" fill="#a371f7" text-anchor="middle">Step 4</text>
+  <text x="630" y="195" font-family="system-ui,sans-serif" font-size="10" fill="#f778ba" text-anchor="middle">Step 5</text>
+
+  <!-- Divider -->
+  <line x1="40" y1="210" x2="670" y2="210" stroke="#30363d" stroke-width="1" stroke-dasharray="6,4"/>
+
+  <!-- Output Section -->
+  <text x="350" y="240" font-family="system-ui,sans-serif" font-size="14" fill="#ffffff" text-anchor="middle" font-weight="700">Outputs (per cycle)</text>
+
+  <rect x="60" y="255" width="170" height="30" rx="6" fill="#0d1117" stroke="#3fb950" stroke-width="1.5"/>
+  <text x="145" y="275" font-family="system-ui,sans-serif" font-size="11" fill="#3fb950" text-anchor="middle">📄 logs/activity.md</text>
+
+  <rect x="260" y="255" width="170" height="30" rx="6" fill="#0d1117" stroke="#58a6ff" stroke-width="1.5"/>
+  <text x="345" y="275" font-family="system-ui,sans-serif" font-size="11" fill="#58a6ff" text-anchor="middle">📊 logs/state.json</text>
+
+  <rect x="460" y="255" width="180" height="30" rx="6" fill="#0d1117" stroke="#f0883e" stroke-width="1.5"/>
+  <text x="550" y="275" font-family="system-ui,sans-serif" font-size="11" fill="#f0883e" text-anchor="middle">🟩 GitHub contribution</text>
+
+  <!-- Timing info -->
+  <text x="350" y="305" font-family="system-ui,sans-serif" font-size="11" fill="#8b949e" text-anchor="middle">⏱ ~30 seconds per run  •  7 runs/day  •  ~3.5 min/day total  •  Free tier</text>
+</svg>
